@@ -1,12 +1,15 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head, Link } from '@inertiajs/vue3';
+import { Head, Link, router } from '@inertiajs/vue3';
 import Button from '../../Components/Button.vue';
+import { ref } from 'vue';
+import TableVue from '@/Components/Table.vue';
 
-defineProps({ user: Object })
+defineProps({ blog: Object })
 </script>
 
 <template>
+
     <Head title="Blog" />
 
     <AuthenticatedLayout>
@@ -15,6 +18,7 @@ defineProps({ user: Object })
                 <div>
                     <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">Blog</h2>
                 </div>
+
                 <Button :href="route('blog.add')" title="Tambah Data">
                     <svg class="mr-2 hover:text-white" width="23px" height="23px" viewBox="0 0 32 32" version="1.1"
                         xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -25,7 +29,8 @@ defineProps({ user: Object })
                         <defs>
 
                         </defs>
-                        <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+                        <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"
+                            sketch:type="MSPage">
                             <g id="Icon-Set" sketch:type="MSLayerGroup" transform="translate(-100.000000, -1035.000000)"
                                 fill="#000000">
                                 <path
@@ -39,10 +44,14 @@ defineProps({ user: Object })
                 </Button>
 
             </div>
-            {{ user }}
+            <div v-if="$page.props.flash.message"
+                class="p-4 mb-4 text-lg text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400"
+                role="alert">
+                <span class="font-medium">{{ $page.props.flash.message }}</span>
+            </div>
+            <TableVue :blog="blog" />
         </template>
 
 
     </AuthenticatedLayout>
 </template>
-
